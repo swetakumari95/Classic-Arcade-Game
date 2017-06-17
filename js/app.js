@@ -41,20 +41,20 @@ Enemy.prototype.update = function(dt) {
     }
     
     //collision detection
-    var diff_x = Math.abs(this.x-player.x);
-    if (diff_x<50){
-        if (this.y==60 && player.y==40) {
+    var diffX = Math.abs(this.x-player.x);
+    if (diffX<50){
+        if (this.y===60 && player.y===40) {
             //collision in lane 1
             player.reset();
             //decreases the lives
             decreaseLives();
-        }else if (this.y==145 && player.y==130) {
+        }else if (this.y===145 && player.y===130) {
             //collision in lane 2
             player.reset();
             //decreases the lives
             decreaseLives();
         }
-        else if (this.y==225 && player.y==220){
+        else if (this.y===225 && player.y===220){
             //collision in lane 1
             player.reset();
             //decreases the lives
@@ -81,9 +81,9 @@ var randomLane = function(){
 };
 
 var decreaseLives = function(){
-    if (gameOver==false){
+    if (gameOver===false){
         lives -= 1;
-        if (lives==0){
+        if (lives===0){
             gameOver = true;
             document.getElementById("livesBoard").innerHTML = "LIVES: "+lives;
             document.getElementById("gameOver").innerHTML = "GAME OVER";
@@ -123,26 +123,26 @@ Player.prototype.reset = function(){
 
 Player.prototype.handleInput = function(allowedKeys){
     //moving the players on the screen
-    if (allowedKeys=='left'){
+    if (allowedKeys==='left'){
         this.x -= 100;
         if (this.x<0)
             this.x += 100;
-    }else if (allowedKeys=='right'){
+    }else if (allowedKeys==='right'){
         this.x += 100;
         if (this.x>400)
             this.x -= 100;
-    }else if (allowedKeys=='up'){
+    }else if (allowedKeys==='up'){
         this.y -= 90;
         if (this.y<40){
             //reseting the game when player reaches the water
             player.reset();
             //updating the score of the game
-            if (gameOver==false){
+            if (gameOver===false){
                 score += 10;
                 document.getElementById("scoreBoard").innerHTML = "SCORE: "+score;   
             }
         }
-    }else if (allowedKeys=='down'){
+    }else if (allowedKeys==='down'){
         this.y += 90;
         if (this.y>400)
             this.y -= 90;

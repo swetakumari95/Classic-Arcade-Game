@@ -1,5 +1,8 @@
 var score = 0;
 var lives = 5;
+var button = document.createElement("BUTTON");
+var text = document.createTextNode("REPLAY");
+var gameOver = false;
 
 // Enemies our player must avoid
 var Enemy = function() {
@@ -44,21 +47,18 @@ Enemy.prototype.update = function(dt) {
             //collision in lane 1
             player.reset();
             //decreases the lives
-            lives -= 1;
-            document.getElementById("livesBoard").innerHTML = "LIVES: "+lives;
+            decreaseLives();
         }else if (this.y==145 && player.y==130) {
             //collision in lane 2
             player.reset();
             //decreases the lives
-            lives -= 1;
-            document.getElementById("livesBoard").innerHTML = "LIVES: "+lives
+            decreaseLives();
         }
         else if (this.y==225 && player.y==220){
             //collision in lane 1
             player.reset();
             //decreases the lives
-            lives -= 1;
-            document.getElementById("livesBoard").innerHTML = "LIVES: "+lives
+            decreaseLives();
         }
     }
 };
@@ -78,6 +78,20 @@ var randomLane = function(){
     else if (lane===3)
         this.y = 225;
     return this.y;
+};
+
+var decreaseLives = function(){
+    if (gameOver==false){
+        lives -= 1;
+        if (lives==0){
+            gameOver = true;
+            document.getElementById("livesBoard").innerHTML = "LIVES: "+lives;
+            document.getElementById("gameOver").innerHTML = "GAME OVER";
+            button.appendChild(text);
+            document.getElementById("container").appendChild(button);
+        }else
+            document.getElementById("livesBoard").innerHTML = "LIVES: "+lives;
+    }
 };
 
 // Now write your own player class
@@ -123,8 +137,10 @@ Player.prototype.handleInput = function(allowedKeys){
             //reseting the game when player reaches the water
             player.reset();
             //updating the score of the game
-            score += 10;
-            document.getElementById("scoreBoard").innerHTML = "SCORE: "+score;
+            if (gameOver==false){
+                score += 10;
+                document.getElementById("scoreBoard").innerHTML = "SCORE: "+score;   
+            }
         }
     }else if (allowedKeys=='down'){
         this.y += 90;
@@ -155,3 +171,7 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+button.onclick = function(){
+    location.reload();
+};
